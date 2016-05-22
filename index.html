@@ -4,10 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Self-Hosted ClojureScript入門</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/night.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +24,129 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>Self-Hosted ClojureScript入門</h1>
+					<p>2016.05.21 Yoshito Komatsu</p>
+				</section>
+				<section>
+					<h2>What is ClojureScript?</h2>
+					<blockquote>
+						<p>ClojureScript is a compiler for Clojure that targets JavaScript.
+						   It is designed to emit JavaScript code which is compatible with the advanced compilation mode of the Google Closure optimizing compiler.</p>
+						<p>--- <cite>clojure/clojurescript: Clojure to JS compiler <a href="https://github.com/clojure/clojurescript">https://github.com/clojure/clojurescript</a></cite></p>
+					</blockquote>
+				</section>
+				<section>
+					<p>ClojureScriptコンパイラーはClojure/Java VMで動く</p>
+				</section>
+				<section>
+					<p>ClojureScriptコンパイラーをClojureScriptコンパイラーでコンパイルしたい</p>
+				</section>
+				<section>
+					<h2>The Beginning of Self-Hosted ClojureScript</h2>
+					<dl>
+						<dt>self-hosting</dt>
+						<dd>(A compiler) can compile its own code</dd>
+					</dl>
+				</section>
+				<section>
+					<p>Self-Hosted ClojureScript is also known as:</p>
+					<ul>
+						<li>Bootstrapped ClojureScript</li>
+						<li>ClojureScript-in-ClojureScript</li>
+					</ul>
+				</section>
+				<section>
+					<p>kanaka/clojurescript: Clojure to JS compiler (patched to allow compiling of compiler to ClojureScript) <a href="https://github.com/kanaka/clojurescript">https://github.com/kanaka/clojurescript</a></p>
+					<ul>
+						<li>Developer
+							<ul>
+								<li>Joel Martin (<a href="https://github.com/kanaka">kanaka</a>)</li>
+								<li>Chris Houser (<a href="https://github.com/chouser">chouser</a>)</li>
+							</ul></li>
+						<li>Original version of <a href="http://clojurescript.net">clojurescript.net</a></li>
+					</ul>
+				</section>
+				<section>
+					<p>swannodette/cljs-bootstrap: ClojureScript compiling ClojureScript <a href="https://github.com/swannodette/cljs-bootstrap">https://github.com/swannodette/cljs-bootstrap</a></p>
+					<ul>
+						<li>Developer
+							<ul>
+								<li>David Nolen (<a href="https://github.com/swannodette">swannodette</a>)</li>
+							</ul></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Self-Hosted ClojureScript</h2>
+					<p>2015.07.29</p>
+					<blockquote>
+						<p>ClojureScript can compile itself.</p>
+						<p>--- <cite>David Nolen, <a href="http://swannodette.github.io/2015/07/29/clojurescript-17">ClojureScript Next</a></cite></p>
+					</blockquote>
+				</section>
+				<section>
+					<h3>想定される使用例1</h3>
+					<blockquote>
+						<ul>
+							<li>Shipping dev tools that don't require a JVM dependency.</li>
+							<li>Low-latency scripting, making use of JavaScript engines' inherent fast startup in interpreted mode.
+								Currently bootstrapped ClojureScript REPLs are 20-30% faster to start up than Clojure and tens of times faster than the standard JVM based ClojureScript REPLs.</li>
+							<li>Live updates to deployed codebases.
+								(Ship code that can be compiled in target environment and dynamically incorporated in app. Mobile app updates, etc.)</li>
+						</ul>						
+						<p>--- <cite><a href="https://github.com/clojure/clojurescript/wiki/Bootstrapped-ClojureScript-FAQ">Bootstrapped ClojureScript FAQ</a></cite></p>
+					</blockquote>
+				</section>
+				<section>
+					<h3>想定される使用例2</h3>
+					<blockquote>
+						<ul>
+							<li>Web pages that provide dynamic online tutorials or showcase ClojureScript libraries.</li>
+							<li>REPLs on mobile devices, without requiring network access to a compiler backend.</li>
+							<li>Diagnostic REPLs embedded in apps, making it easier to examine state of running app.</li>
+						</ul>						
+						<p>--- <cite><a href="https://github.com/clojure/clojurescript/wiki/Bootstrapped-ClojureScript-FAQ">Bootstrapped ClojureScript FAQ</a></cite></p>
+					</blockquote>
+				</section>
+				<section>
+					<h2>簡単な使用例</h2>
+					<p>selfhosted-cljs-example <a href="https://github.com/ykomatsu/selfhosted-cljs-example">https://github.com/ykomatsu/selfhosted-cljs-example</a></p>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment fade-in">Self-Hosted ClojureScriptを動かすために必要な情報は<code>cljs.js</code>名前空間に大体ある</li>
+						<li class="fragment fade-in"><code>cljs.js/analyze-str</code></li>
+						<li class="fragment fade-in"><code>cljs.js/compile-str</code></li>
+						<li class="fragment fade-in"><code>cljs.js/eval-str</code></li>
+						<li class="fragment fade-in">ClojureScriptコンパイラーの最初の状態は<code>cljs.js/empty-state</code>で入手できる</li>
+					</ul>
+					<p></p>
+				</section>
+				<section>
+					<h2>実際の使用例</h2>
+					<ul>
+						<li>Replete <a href="https://github.com/mfikes/replete">https://github.com/mfikes/replete</a>
+							<ul>
+								<li>ClojureScript REPL iOS app</li>
+							</ul></li>
+						<li>KLIPSE <a href="https://github.com/viebel/klipse">https://github.com/viebel/klipse</a>
+							<ul>
+								<li>A simple and elegant online cljs compiler and evaluator</li>
+							</ul></li>
+						<li>quil.info <a href="https://github.com/quil/quil-site">https://github.com/quil/quil-site</a></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Links</h2>
+					<ul>
+						<li><a href="http://swannodette.github.io/2015/07/29/clojurescript-17">ClojureScript Next</a> - David Nolen</li>
+						<li><a href="https://nbeloglazov.com/2016/03/05/getting-started-with-self-hosted-cljs-part-1.html">Getting Started with Self-Hosted ClojureScript. Part 1.</a> - Nikita Beloglazov</li>
+						<li><a href="http://blog.fogus.me/tag/clj-compilation">clj-compilation (Send More Paramedics)</a> - Michael Fogus</li>
+						<li><a href="http://blog.fikesfarm.com/">FikesFarm Blog</a> - Mike Fikes</li>
+						<li><a href="http://lambdax.io/blog">LambdaX blog</a> - LambdaX</li>
+						<li><a href="http://blog.klipse.tech/">A journey into functional programming wonders, especially Clojure and Clojurescript</a> - Raphael Boukara, Yehonathan Sharvit</li>
+					</ul>
+				</section>
 			</div>
 		</div>
 
@@ -36,6 +157,8 @@
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
+				width: 1280,
+				height: 800,
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
